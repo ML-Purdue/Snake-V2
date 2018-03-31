@@ -94,6 +94,8 @@ class Scores:
 class Shape:
     """This is a template to make obstacles and snake body parts"""
     def __init__(self, can, a, b, kind):
+        # 'can' is the canvas on which the game is displayed
+
         self.can = can
         self.x, self.y = a, b
         self.kind = kind
