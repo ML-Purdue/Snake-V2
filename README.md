@@ -1,3 +1,6 @@
+### Explanation of Deep Reinforcement Learning
+https://ai.intel.com/demystifying-deep-reinforcement-learning/
+
 ### Tutorial on PyTorch DQN
 http://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
 
