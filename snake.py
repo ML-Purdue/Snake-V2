@@ -1,5 +1,8 @@
 from tkinter import*
 from random import randint
+from time import sleep
+import sys
+
 
 # constants that go in the making of the grid used for the snake's movment
 GRADUATION = 40
@@ -25,6 +28,7 @@ UP = 'Up'
 DOWN = 'Down'
 RIGHT = 'Right'
 LEFT = 'Left'
+
 # a dictionary to ease access to 'directions'
 DIRECTIONS = {UP: [0, -1], DOWN: [0, 1], RIGHT: [1, 0], LEFT: [-1, 0]}
 AXES = {UP: 'Vertical', DOWN: 'Vertical', RIGHT: 'Horizontal', LEFT: 'Horizontal'}
@@ -64,14 +68,16 @@ class Master(Canvas):
             for block in self.snake.blocks:
                 block.delete()
 
-    def redirect(self, event):
+    def redirect(self, action):
         """taking keyboard inputs and moving the snake accordingly"""
         if 1 == self.running and \
-                event.keysym in AXES.keys() and\
-                AXES[event.keysym] != AXES[self.direction]:
+                action in AXES.keys() and\
+                AXES[action] != AXES[self.direction]:
+            # print(event.keysym)
+
             self.current.flag = 0
-            self.direction = event.keysym
-            self.current = Movement(self, event.keysym)  # a new instance at each turn to avoid confusion/tricking
+            self.direction = action
+            self.current = Movement(self, action)  # a new instance at each turn to avoid confusion/tricking
             self.current.begin()  # program gets tricked if the user presses two arrow keys really quickly
 
 
@@ -188,7 +194,7 @@ root = Tk()
 root.title("Snake Game")
 game = Master(root)
 game.grid(column=1, row=0, rowspan=3)
-root.bind("<Key>", game.redirect)
+# root.bind("<Key>", game.redirect)
 buttons = Frame(root, width=35, height=3*HT/5)
 Button(buttons, text='Start', command=game.start).grid()
 Button(buttons, text='Stop', command=game.clean).grid()
@@ -200,4 +206,15 @@ Label(scoreboard, textvariable=game.score.counter).grid()
 Label(scoreboard, text='High Score').grid()
 Label(scoreboard, textvariable=game.score.maximum).grid()
 scoreboard.grid(column=0, row=2)
-root.mainloop()
+# root.mainloop()
+
+while True:
+    try:
+        action = list(DIRECTIONS.keys())[randint(0,3)] 
+        game.redirect(action)
+        root.update_idletasks()
+        root.update()
+        sleep(0.5)
+    except Exception:
+        sys.exit()
+
